@@ -1,18 +1,35 @@
-import React from 'react'
-import { Link } from 'react-router'
+import React, { use } from 'react'
+import { Link, NavLink } from 'react-router'
+import { AuthContext } from './../contexts/AuthContext';
 
 const Navbar = () => {
 
+  const { user, signOutFunc, setLoading } = use(AuthContext)
+
+  const handleLogOut = () => {
+    signOutFunc()
+      .then(() => {
+        setLoading(false)
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
+
   const links = <>
-    <li><Link to="/">Home</Link></li>
-    <li><Link to="/all-products">All Products</Link></li>
-    <li><Link to="/my-products">My Products</Link></li>
-    <li><Link to="/my-bids">My Bids</Link></li>
-    <li><Link to="/create-product">Create Product</Link></li>
+    <li><NavLink to="/">Home</NavLink></li>
+    <li><NavLink to="/all-products">All Products</NavLink></li>
+    {user &&
+      <>
+        <li><NavLink to="/my-products">My Products</NavLink></li>
+        <li><NavLink to="/my-bids">My Bids</NavLink></li>
+        <li><NavLink to="/create-product">Create Product</NavLink></li>
+      </>
+    }
   </>
 
   return (
-    <div className="navbar bg-base-100 shadow-sm">
+    <div className="navbar bg-base-100 max-w-11/12 mx-auto">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -24,15 +41,20 @@ const Navbar = () => {
             {links}
           </ul>
         </div>
-        <a className="btn btn-ghost text-xl">daisyUI</a>
+        <a className="text-4xl font-bold">Smart<span className='text-primary'>Deals</span></a>
       </div>
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1">
+        <ul className="menu menu-horizontal px-1 font-medium">
           {links}
         </ul>
       </div>
       <div className="navbar-end">
-        <a className="btn">Button</a>
+        {user ? <button onClick={handleLogOut} className="btn btn-outline">Logout</button> :
+          <div className="space-x-4">
+            <Link to="/login" className="btn btn-outline">Login</Link>
+            <Link to="/register" className="btn btn-primary">Register</Link>
+          </div>
+        }
       </div>
     </div>
   )

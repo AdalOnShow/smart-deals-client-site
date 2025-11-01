@@ -5,6 +5,9 @@ import AllProducts from "../pages/AllProducts";
 import MyProducts from './../pages/MyProducts';
 import MyBids from './../pages/MyBids';
 import CreateProduct from './../pages/CreateProduct';
+import Login from "../pages/Login";
+import Register from "../pages/Register";
+import PrivateRoute from "./PrivateRoute";
 
 export const router = createBrowserRouter([
   {
@@ -12,24 +15,32 @@ export const router = createBrowserRouter([
     element: <MainLayouts />,
     children: [
       {
-      index: true,
-      element: <Home />
+        index: true,
+        element: <Home />
       },
       {
-        path: "all-products",
+        path: "/all-products",
         element: <AllProducts />
       },
       {
-        path: "my-products",
-        element: <MyProducts />
+        path: "/login",
+        element: <Login />
       },
       {
-        path: 'my-bids',
-        element: <MyBids />
+        path: "/register",
+        element: <Register />
       },
       {
-        path: 'create-product',
-        element: <CreateProduct />
+        path: "/my-products",
+        element: <PrivateRoute><MyProducts /></PrivateRoute>
+      },
+      {
+        path: '/my-bids',
+        element: <PrivateRoute><MyBids /></PrivateRoute>
+      },
+      {
+        path: '/create-product',
+        element: <PrivateRoute><CreateProduct /></PrivateRoute>
       }
     ]
   },
