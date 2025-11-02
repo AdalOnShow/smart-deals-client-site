@@ -1,8 +1,101 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { AuthContext } from '../contexts/AuthContext'
+import { use } from 'react'
+import Swal from 'sweetalert2'
 
 const MyBids = () => {
+  const { user } = use(AuthContext)
+  const [bids, setBids] = useState([])
+
+  useEffect(() => {
+    if (user?.email) {
+      fetch(`http://localhost:5000/bids?email=${user?.email}`)
+        .then(res => res.json())
+        .then(data => {
+          setBids(data)
+        })
+    }
+  }, [user?.email])
+
+  const handleDeleteBid = (_id) => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "Are you sure you want to delete this bid?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch(`http://localhost:5000/bids/${_id}`, {
+          method: 'DELETE'
+        })
+          .then(res => res.json())
+          .then(data => {
+            if (data.deletedCount > 0) {
+              Swal.fire(
+                'Deleted!',
+                'Your bid has been deleted.',
+                'success'
+              )
+              const remainingBids = bids.filter(bid => bid._id !== _id)
+              setBids(remainingBids)
+            }
+          })
+      }
+    })
+  }
   return (
-    <div>MyBids</div>
+    <div className='max-w-11/12 mx-auto'>
+      <h2 className='text-2xl font-bold my-4'>My Bids: <span className='text-primary'>{bids.length}</span></h2>
+
+      <div className="overflow-x-auto">
+        <table className="table">
+          <thead>
+            <tr>
+              <th>SL No</th>
+              <th>Buyer</th>
+              <th>Bid Price</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {bids.map(({ _id, buyerName, buyerEmail, buyerPhoto, bid_price }, index) =>
+              <tr key={index}>
+                <th>
+                  {index + 1}
+                </th>
+                <td>
+                  <div className="flex items-center gap-3">
+                    <div className="avatar">
+                      <div className="mask mask-squircle h-12 w-12">
+                        <img
+                          src={buyerPhoto}
+                          alt="Avatar" />
+                      </div>
+                    </div>
+                    <div>
+                      <div className="font-bold">{buyerName}</div>
+                      <div className="text-sm opacity-50">{buyerEmail}</div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <span className="badge badge-ghost badge-sm">${bid_price}</span>
+                </td>
+                <td>
+                  <span className="badge badge-warning badge-md">Pending</span>
+                </td>
+                <th>
+                  <button onClick={() => handleDeleteBid(_id)} className="btn btn-outline btn-xs">Deleat</button>
+                </th>
+              </tr>)}
+          </tbody>
+        </table>
+      </div>
+    </div>
   )
 }
 
