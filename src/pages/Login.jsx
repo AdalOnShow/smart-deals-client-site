@@ -16,7 +16,6 @@ const Login = () => {
       .then((result) => {
         e.target.reset()
         setLoading(false)
-        console.log(result.user)
       })
       .catch(error => {
         console.log(error)

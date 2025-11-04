@@ -9,13 +9,17 @@ const MyBids = () => {
 
   useEffect(() => {
     if (user?.email) {
-      fetch(`http://localhost:5000/bids?email=${user?.email}`)
+      fetch(`http://localhost:5000/bids?email=${user?.email}`, {
+        headers: {
+          "authorization": `Bearer ${user.accessToken}`
+        }
+      })
         .then(res => res.json())
         .then(data => {
           setBids(data)
         })
     }
-  }, [user?.email])
+  }, [user])
 
   const handleDeleteBid = (_id) => {
     Swal.fire({

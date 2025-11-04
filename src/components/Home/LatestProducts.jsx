@@ -4,7 +4,6 @@ import { Link } from 'react-router'
 
 const LatestProducts = ({ promise }) => {
   const latestProducts = use(promise)
-  console.log(latestProducts)
   return (
     <div className='py-8 max-w-11/12 mx-auto flex-center flex-col'>
       <h2 className='font-bold text-center text-5xl mb-4'>Recent <span className='text-primary'>Products</span></h2>
