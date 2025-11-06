@@ -1,10 +1,9 @@
-import React, { use } from 'react'
 import { Link } from 'react-router'
-import { AuthContext } from '../contexts/AuthContext'
+import useAuth from '../hooks/useAuth'
 
 const Login = () => {
 
-  const { signInFunc, setLoading, googleSignIn, creatUserDB } = use(AuthContext)
+  const { signInFunc, setLoading, googleSignIn, creatUserDB } = useAuth()
 
   const handleLogin = (e) => {
     e.preventDefault()
@@ -13,7 +12,7 @@ const Login = () => {
     const password = e.target.password.value
 
     signInFunc(email, password)
-      .then((result) => {
+      .then(() => {
         e.target.reset()
         setLoading(false)
       })

@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { AuthContext } from '../contexts/AuthContext'
-import { use } from 'react'
 import Swal from 'sweetalert2'
+import useAuth from '../hooks/useAuth'
 
 const MyBids = () => {
-  const { user } = use(AuthContext)
+  const { user } = useAuth()
   const [bids, setBids] = useState([])
 
   useEffect(() => {

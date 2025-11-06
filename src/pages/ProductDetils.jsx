@@ -1,20 +1,26 @@
-import React, { use, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { useLoaderData } from 'react-router'
-import { AuthContext } from '../contexts/AuthContext'
 import Swal from 'sweetalert2'
 import { useEffect } from 'react'
+import axios from 'axios'
+import useAuth from '../hooks/useAuth'
 
 const ProductDetils = () => {
-  const { user } = use(AuthContext)
-  const { title, description, _id: productId } = useLoaderData()
+  const { user } = useAuth()
+  const { title, description = " ", _id: productId } = useLoaderData()
   const modalRef = useRef()
   const [bids, setBids] = useState([])
 
   useEffect(() => {
-    fetch(`http://localhost:5000/product/bids/${productId}`)
-      .then(res => res.json())
+    // fetch(`http://localhost:5000/product/bids/${productId}`)
+    //   .then(res => res.json())
+    //   .then(data => {
+    //     setBids(data)
+    //   })
+
+    axios.get(`http://localhost:5000/product/bids/${productId}`)
       .then(data => {
-        setBids(data)
+        setBids(data.data)
       })
   }, [productId])
 

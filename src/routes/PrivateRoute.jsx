@@ -1,9 +1,8 @@
-import React, { use } from 'react'
-import { AuthContext } from '../contexts/AuthContext'
 import { Navigate } from 'react-router'
+import useAuth from '../hooks/useAuth'
 
 const PrivateRoute = ({ children }) => {
-  const { user, loading } = use(AuthContext)
+  const { user, loading } = useAuth()
 
   if (user) {
     return children

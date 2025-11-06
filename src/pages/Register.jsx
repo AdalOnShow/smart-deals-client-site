@@ -1,12 +1,10 @@
-import React, { use } from 'react'
-import { AuthContext } from '../contexts/AuthContext'
 import { Link } from 'react-router'
 import { updateProfile } from 'firebase/auth'
+import useAuth from '../hooks/useAuth'
 
 const Register = () => {
 
-  const { createUserFunc, setLoading, googleSignIn, creatUserDB } = use(AuthContext)
-
+  const { createUserFunc, setLoading, googleSignIn, creatUserDB } = useAuth()
   const handleRegiser = (e) => {
     e.preventDefault()
 
