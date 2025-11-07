@@ -1,8 +1,11 @@
-import axios from 'axios'
 import React from 'react'
 import Swal from 'sweetalert2'
+import useAuth from '../hooks/useAuth'
+import useAxios from '../hooks/useAxios'
 
 const CreateProduct = () => {
+  const { user } = useAuth()
+  const axiosInstance = useAxios()
 
   const handleCreateProduct = (e) => {
     e.preventDefault()
@@ -12,11 +15,11 @@ const CreateProduct = () => {
     const minPrice = e.target.minPrice.value
     const maxPrice = e.target.maxPrice.value
 
-    const newProduct = { title, image: photo, price_min: minPrice, price_max: maxPrice }
+    const newProduct = { title, image: photo, price_min: minPrice, price_max: maxPrice, status: 'available', seller_name: user.displayName, email: user.email, seller_image: user.photoURL }
 
-    axios.post('http://localhost:5000/products', newProduct)
+    axiosInstance.post('/products', newProduct)
       .then(data => {
-        if(data.data.insertedId){
+        if (data.data.insertedId) {
           e.target.reset()
           Swal.fire({
             position: 'center',
@@ -47,7 +50,7 @@ const CreateProduct = () => {
           <label className="label flex-1">Max Price</label>
           <input type="text" name="maxPrice" className="input w-full" placeholder="Max Price" />
 
-          <button type='submit' className="btn btn-neutral mt-4">Create Produch</button>
+          <button type='submit' className="btn btn-neutral mt-4">Create Product</button>
         </fieldset>
       </form>
     </div>

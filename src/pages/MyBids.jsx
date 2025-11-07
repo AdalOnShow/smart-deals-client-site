@@ -1,24 +1,21 @@
 import React, { useEffect, useState } from 'react'
 import Swal from 'sweetalert2'
 import useAuth from '../hooks/useAuth'
+import useAxios from '../hooks/useAxios'
 
 const MyBids = () => {
   const { user } = useAuth()
   const [bids, setBids] = useState([])
+  const axiosInstance = useAxios()
 
   useEffect(() => {
     if (user?.email) {
-      fetch(`http://localhost:5000/bids?email=${user?.email}`, {
-        headers: {
-          "authorization": `Bearer ${user.accessToken}`
-        }
-      })
-        .then(res => res.json())
+      axiosInstance.get(`/bids?email=${user.email}`)
         .then(data => {
-          setBids(data)
+          setBids(data.data)
         })
     }
-  }, [user])
+  }, [user, axiosInstance])
 
   const handleDeleteBid = (_id) => {
     Swal.fire({
@@ -92,7 +89,7 @@ const MyBids = () => {
                   <span className="badge badge-warning badge-md">Pending</span>
                 </td>
                 <th>
-                  <button onClick={() => handleDeleteBid(_id)} className="btn btn-outline btn-xs">Deleat</button>
+                  <button onClick={() => handleDeleteBid(_id)} className="btn btn-outline btn-xs">Delate</button>
                 </th>
               </tr>)}
           </tbody>
