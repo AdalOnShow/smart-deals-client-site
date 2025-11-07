@@ -46,7 +46,7 @@ export const router = createBrowserRouter([
       {
         path: '/product-details/:id',
         element: <ProductDetils />,
-        loader: async ({ params }) => fetch(`http://localhost:5000/products/${params.id}`)
+        loader: async ({ params }) => fetch(`https://smart-deals-server-sigma-beige.vercel.app/products/${params.id}`)
       }
     ]
   },

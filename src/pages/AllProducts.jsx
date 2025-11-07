@@ -6,7 +6,7 @@ const AllProducts = () => {
   const [products, setProducts] = useState([])
 
   useEffect(() => {
-    axios.get('http://localhost:5000/products').then(data => setProducts(data.data))
+    axios.get('https://smart-deals-server-sigma-beige.vercel.app/products').then(data => setProducts(data.data))
 
   }, [products])
 

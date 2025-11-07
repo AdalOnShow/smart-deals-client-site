@@ -12,13 +12,13 @@ const ProductDetils = () => {
   const [bids, setBids] = useState([])
 
   useEffect(() => {
-    // fetch(`http://localhost:5000/product/bids/${productId}`)
+    // fetch(`https://smart-deals-server-sigma-beige.vercel.app/product/bids/${productId}`)
     //   .then(res => res.json())
     //   .then(data => {
     //     setBids(data)
     //   })
 
-    axios.get(`http://localhost:5000/product/bids/${productId}`)
+    axios.get(`https://smart-deals-server-sigma-beige.vercel.app/product/bids/${productId}`)
       .then(data => {
         setBids(data.data)
       })
@@ -40,7 +40,7 @@ const ProductDetils = () => {
 
     const newBid = { productId, buyerName, buyerEmail, buyerPhoto, bid_price, buyerContact }
 
-    fetch('http://localhost:5000/bids', {
+    fetch('https://smart-deals-server-sigma-beige.vercel.app/bids', {
       method: 'POST',
       headers: {
         'content-type': 'application/json'

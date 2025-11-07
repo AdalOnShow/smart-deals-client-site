@@ -4,7 +4,7 @@ import { useEffect } from "react"
 import { useNavigate } from "react-router"
 
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:5000'
+  baseURL: 'https://smart-deals-server-sigma-beige.vercel.app'
 })
 
 const useAxios = () => {

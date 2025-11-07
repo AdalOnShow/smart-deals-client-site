@@ -12,7 +12,7 @@ const AuthProvider = ({ children }) => {
   const GoogleProvider = new GoogleAuthProvider();
 
   const creatUserDB = (newUser) => {
-    return fetch('http://localhost:5000/users', {
+    return fetch('https://smart-deals-server-sigma-beige.vercel.app/users', {
       method: 'POST',
       headers: {
         'content-type': 'application/json'
